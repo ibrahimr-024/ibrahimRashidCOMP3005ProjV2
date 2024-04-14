@@ -1,0 +1,51 @@
+<html>
+    <h1>Welcome to Health and Fitness Club Management System</h1>
+    <h3>Please login or register below!</h3>
+    <form id='loginForm' action="/login" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br>
+
+        <button type="submit">Login</button>
+    </form>
+    
+
+    <script>
+        function loginUser(){
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+
+            console.log('user: ', username)
+
+            return false;
+        }
+    </script>
+
+<form id="registrationForm" action="/register" method="POST">
+    <label for="newUsername">New Username:</label>
+    <input type="text" id="newUsername" name="newUsername" required><br>
+  
+    <label for="newPassword">New Password:</label>
+    <input type="password" id="newPassword" name="newPassword" required><br>
+  
+    <button type="submit">Register</button>
+  </form>
+
+  <script>
+    function registerUser() {
+      var newUsername = document.getElementById('newUsername').value;
+      var newPassword = document.getElementById('newPassword').value;
+
+      
+
+      console.log('New Username:', newUsername);
+      console.log('New Password:', newPassword);
+
+
+      // Return false to prevent the form from submitting and redirecting
+      return false;
+    }
+  </script>
+</html>

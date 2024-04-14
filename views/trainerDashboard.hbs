@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Trainer Dashboard</title>
+    </head>
+    <body>
+        <h1>Welcome to Your Management Dashboard!</h1>
+
+        <form id="availableForm" action="/available" method="POST">
+        <label for="startTime">*Start Time (YYYY-MM-DD HH:MM:SS):</label>
+        <input type="text" id="startTime" name="startTime" required><br>
+
+        <label for="endTime">*End Time (YYYY-MM-DD HH:MM:SS):</label>
+        <input type="text" id="endTime" name="endTime" required><br>
+
+        <button type="submit">Submit availability</button>
+        </form>
+        
+        <div>
+            <h3>Here are your scheduled availabilities:</h3>
+            <table>
+                <tr>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                </tr>
+                {{#each time}}
+                <tr>
+                    <td>{{this.start_time}}</td>
+                    <td>{{this.end_time}}</td>
+                </tr>
+                {{/each}}
+            </table>
+        </div>
+
+        <h2>Member Search:</h2>
+
+        <form id="memberForm" action="/memberSearch" method="POST">
+        <select name="member" id="member">
+            {{#each member}}
+            <option value="{{this.username}}">{{this.username}}</option>
+            {{/each}}
+        </select>
+        <button type="submit">Submit Member Search</button>
+        </form>
+
+        <div>
+            <h3>Here's {{selectedMember}}'s health metric progress!</h3>
+            <table>
+                <tr>
+                    <th>Weight</th>
+                    <th>BMI</th>
+                    <th>Body Fat %</th>
+                    <th>Date</th>
+                </tr>
+                {{#each memberChosen}}
+                <tr>
+                    <td>{{this.weight}}</td>
+                    <td>{{this.bmi}}</td>
+                    <td>{{this.body_fat_percentage}}</td>
+                    <td>{{this.date}}</td>
+                </tr>
+                {{/each}}
+            </table>
+        </div>
+
+    </body>
+</html>

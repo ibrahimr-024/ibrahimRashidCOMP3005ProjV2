@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Admin Dashboard</title>
+    </head>
+    <body>
+        <h1>Welcome To Your Management Dashboard!</h1>
+
+        <h2>Equipment Monitoring</h2>
+        <table>
+            <tr>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Date</th>
+            </tr>
+            {{#each Equipment}}
+            <tr>
+                <td>{{this.description}}</td>
+                <td>{{this.status}}</td>
+                <td>{{this.date}}</td>
+            </tr>
+            {{/each}}
+        </table>
+
+        <h2>Class Scheduling Manager</h2>
+        <form id="roomForm" action="/room" method="POST">
+        <select name="room" id="room">
+            {{#each room}}
+            <option value="{{this.room_name}}">{{this.room_name}}</option>
+            {{/each}}
+        </select>
+
+        <select name="trainer" id="trainer">
+            {{#each trainer}}
+            <option value="{{this.username}}">{{this.username}}</option>
+            {{/each}}
+        </select>
+
+        <p>Room capacity: 30</p>
+        <label for="startTime">*Start Time (YYYY-MM-DD HH:MM:SS):</label>
+        <input type="text" id="startTime" name="startTime" required><br>
+
+        <label for="endTime">*End Time (YYYY-MM-DD HH:MM:SS):</label>
+        <input type="text" id="endTime" name="endTime" required><br>
+        <button type="submit">Submit Class Reservation</button>
+        </form>
+            
+        <h2>Delete scheduled classes:</h3>
+        <form id="deleteForm" action="/delete" method="POST">
+            <select name="scheduled" id="scheduled">
+                {{#each scheduled}}
+                <option value="{{this.class_id}}">{{this.class_id}},{{this.start_time}},{{this.room_name}}</option>
+                {{/each}}
+            </select>
+            <button type="submit">Delete selected class</button>
+        </form>
+
+        <h2>Billing and Payment Processing</h3>
+        <form id="payBill" action="/pay" method="POST">
+            <div>
+                <h4>Upcoming due payments:</h4>
+                <select name="upcomingPay" id="upcomingPay">
+                    {{#each payment}}
+                    <option value="{{this.transaction_id}}">{{this.transaction_id}}, {{this.date}}, {{this.amount}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <button id="submit">Process Payment</button>
+        </form>
+
+        <form id="makeBill" action="/makeBill" method="POST">
+            <h4>Create bill:</h4>
+            <h4>Select member:</h4>
+            <select name="members" id="members">
+                {{#each member}}
+                <option value="{{this.username}}">{{this.username}}</option>
+                {{/each}}
+            </select>
+            <label for="amount">*Amount:</label>
+            <input type="text" id="amount" name="amount" required>
+
+            <label for="date">*Date (YYYY-MM-DD):</label>
+            <input type="text" id="date" name="date" required>
+
+            <button type="submit">Submit Due Bill</button>
+        </form>
+
+        <h2>Room Booking Management</h2>
+        <form id="bookRoom" action="/bookRoom" method="POST">
+            <h3>Book Room:</h3>
+            <h4>Select room</h4>
+            <select name="room" id="room">
+            {{#each room}}
+            <option value="{{this.room_name}}">{{this.room_name}}</option>
+            {{/each}}
+            </select>
+            <label for="startingTime">*Start Time (YYYY-MM-DD HH:MM:SS): </label>
+            <input type="text" id="startingTime" name="startingTime" required>
+
+            <label for="endingTime">*End Time (YYYY-MM-DD HH:MM:SS): </label>
+            <input type="text" id="endingTime" name="endingTime" required>
+
+            <label for="bookingType">*Booking Type: </label>
+            <input type="text" id="bookingType" name="bookingType" required>
+            <button type="submit">Submit room booking</button>
+        </form>
+
+        <form id="deleteBooking" action="/deleteBooking" method="POST">
+            <h3>Delete Room Booking:</h3>
+            <h4>Select booking</h4>
+            <select name="roomName" id="roomName">
+                {{#each roomBooking}}
+                <option value="{{this.room_name}}">{{this.room_name}}</option>
+                {{/each}}
+            </select>
+            <select name="startingTime" id="startingTime">
+                {{#each roomBooking}}
+                <option value="{{this.starting_time}}">{{this.starting_time}}</option>
+                {{/each}}
+            </select>
+            <button type="submit">Delete booking</button>
+        </form>
+
+    </body>
+</html>

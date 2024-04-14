@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Member Dashboard</title>
+  <style>
+    /* Hide the form initially */
+    #updateForm {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to Your Management Dashboard!</h1>
+  <!-- Button to toggle the form visibility -->
+  <button onclick="toggleUpdate()">Update Profile / Profile Management</button>
+
+  <!-- Form for updating profile information -->
+  <form id="updateForm" action="/update" method="POST" >
+    <label for="username">*Current Username:</label>
+    <input type="text" id="username" name="username" required><br>
+
+    <label for="newUsername">*New Username:</label>
+    <input type="text" id="newUsername" name="newUsername" required><br>
+    
+    <label for="newPassword">*New Password:</label>
+    <input type="password" id="newPassword" name="newPassword" required><br>
+
+    <label for="goalWeight">*New Goal Weight (in KG):</label>
+    <input type="text" id="goalWeight" name="goalWeight" required><br>
+
+    <label for="weight">*Current Weight (in KG):</label>
+    <input type="text" id="curWeight" name="curWeight" required><br>
+
+    <label for="height">*Current Height (in cms):</label>
+    <input type="text" id="height" name="height" required><br>
+
+    <label for="bfp">*Current Body Fat %:</label>
+    <input type="text" id="bfp" name="bfp" required><br>
+    
+    <button type="submit">Submit Updates</button>
+  </form>
+  <h3>{{ success }}</h3>
+  <!-- Div to display the routines -->
+  <div>
+    <h3>Here's your dashboard display!</h3>
+    <h4>Here's your exercise progress!</h4>
+   <table>
+    <tr>
+      <th>Excercise Name</th>
+      <th>Sets</th>
+      <th>Reps</th>
+      <th>Weight</th>
+      <th>Date</th>
+    </tr>
+    {{#each exercise}}
+    <tr>
+      <td>{{this.exercise_name}}</td>
+      <td>{{this.sets}}</td>
+      <td>{{this.reps}}</td>
+      <td>{{this.weight_lifted}}</td>
+      <td>{{this.date}}</td>
+    </tr>
+    {{/each}}
+  </table>
+  </div>
+
+  <div>
+    <h4>Here's your health metric progress!</h4>
+    <table>
+      <tr>
+        <th>Weight</th>
+        <th>BMI</th>
+        <th>Body Fat %</th>
+        <th>Date</th>
+      </tr>
+      {{#each metric}}
+      <tr>
+        <td>{{this.weight}}</td>
+        <td>{{this.bmi}}</td>
+        <td>{{this.body_fat_percentage}}</td>
+        <td>{{this.date}}</td>
+      </tr>
+      {{/each}}
+    </table>
+  </div>
+
+  <button onclick="toggleSchedule()">Schedule Personal Workout</button>
+<form id="schedulePersonalForm" action="/schedulePersonal" method="POST" onsubmit="setFormattedDateTime()">
+  <label for="scheduling">Workout time (YYYY-MM-DD HH:MM:SS):</label>
+  <input type="datetime" id="workoutTime" name="workoutTime">
+  <select name="trainer" id="trainer">
+    {{#each trainer}}
+    <option value="{{this.username}}">{{this.username}}</option>
+    {{/each}}
+  </select>
+  <button type="submit">Schedule Personal Workout</button>
+  <input type="hidden" id="formattedDateTime" name="formattedDateTime">
+
+  <h2>Group workout sessions everyday at 9:00 AM, all scheduling is available 1 week in advance</h2>
+
+  </form>
+
+  <form id="scheduleGroupForm" action="/scheduleGroup" method="POST">
+  <select name="sessionTime" id="sessionTime">
+    {{#each session}}
+    <option value="{{this.class_id}}">{{this.class_id}}, {{this.start_time}}, {{this.room_name}}</option>
+    {{/each}}
+  </select>
+  <button type="submit">Schedule Class Workout</button>
+  </form>
+
+
+  
+
+  <!-- JavaScript to toggle form visibility -->
+  <script>
+    function toggleUpdate() {
+      var form = document.getElementById("updateForm");
+      if (form.style.display === "none") {
+        form.style.display = "block";
+      } else {
+        form.style.display = "none";
+      }
+    }
+
+    function toggleSchedule() {
+      var schedForm = document.getElementById("schedulePersonalForm")
+      if (schedForm.style.display === "none"){
+        schedForm.style.display = "block";
+      } else {
+        schedForm.style.display = "none";
+      }
+    }
+
+  function formatDateTime(datetimeString) {
+    const datetime = new Date(datetimeString);
+    const year = datetime.getFullYear();
+    const month = String(datetime.getMonth() + 1).padStart(2, '0');
+    const date = String(datetime.getDate()).padStart(2, '0');
+    const hours = String(datetime.getHours()).padStart(2, '0');
+    const minutes = String(datetime.getMinutes()).padStart(2, '0');
+    const seconds = String(datetime.getSeconds()).padStart(2, '0');
+    return `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
+  }
+
+  // Function to set the formatted datetime value to the input field
+  function setFormattedDateTime() {
+    const dateTimeInput = document.getElementById("workoutTime");
+    const formattedDateTime = formatDateTime(dateTimeInput.value);
+    dateTimeInput.value = formattedDateTime;
+  }
+  </script>
+</body>
+</html>
