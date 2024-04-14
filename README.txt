@@ -26,7 +26,7 @@ Room Booking: Users can book rooms for various purposes such as training session
 -------------------------------------------------------------------------------------------------------------------
 Installation and Setup:
 
-Navigate to the project directory: cd fitness-management-system
+Navigate to the project directory using: 'cd download-name'
 Install dependencies: npm install
 Set up the PostgreSQL database and run the provided SQL script to create tables and insert sample data.
 
