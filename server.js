@@ -38,10 +38,10 @@ function headerLogger(request, response, next){
 
 // Create a PostgreSQL database connection pool
 const pool = new Pool({
-  user: 'postgres',
+  user: 'you_username',
   host: 'localhost',
-  database: 'health_fitness_db',
-  password: 'Ooli1234!',
+  database: 'your_db',
+  password: 'your_password',
   port: 5432 // Default PostgreSQL port
 });
 
